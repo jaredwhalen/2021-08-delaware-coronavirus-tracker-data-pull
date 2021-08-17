@@ -1,7 +1,7 @@
 # Controls when the action will run. 
 on:
   schedule:
-    - cron: '0 10-20 * * *'
+    - cron: '0 16-20 * * *'
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
