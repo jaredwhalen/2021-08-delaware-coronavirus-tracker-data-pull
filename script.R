@@ -58,7 +58,7 @@ checkForVaccinationUpdate = function() {
   request = paste("https://", Sys.getenv("CDN_CURL_AUTH"), "@www.gannett-cdn.com/delaware-online/", location, sep="")
   system(paste('curl -X PURGE "', request, '" -m 10 &', sep='') , TRUE)
   write_csv(vaccinations__updated, paste(output_path, '/vaccinations.csv', sep=''))
-  write_csv(vaccinations__updated, "./outputs/latest/vaccinations__updated.csv")
+  write_csv(vaccinations__updated, "./outputs/latest/vaccinations.csv")
 }
 
 
