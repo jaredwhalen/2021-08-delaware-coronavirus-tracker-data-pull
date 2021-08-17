@@ -13,6 +13,6 @@ OUTPUT="./outputs/latest/"
 PROJECT="coronavirus-tracker"
 
 gsutil cp -r "$OUTPUT" "$CDN_SPACE/$PROJECT"
-gsutil acl set public-read "$CDN_SPACE/$PROJECT"
+gsutil acl -r set public-read "$CDN_SPACE/$PROJECT"
 
 curl -X PURGE --user "$CDN_AUTH" "$PUBLIC_PATH/$PROJECT"
