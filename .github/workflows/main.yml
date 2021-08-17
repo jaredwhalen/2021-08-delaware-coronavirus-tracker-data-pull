@@ -1,0 +1,42 @@
+# Controls when the action will run. 
+on:
+  #schedule:
+  #  - cron: '0 */4 * * *'
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  render:
+    name: Pull coronavirus data
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      #- uses: r-lib/actions/setup-r@v1
+      #- name: Install dependencies
+      #  run: Rscript -e 'install.packages(c("rvest","dplyr","stringr", "tidyr"))'
+      #- name: Scrape the data
+      #  run: Rscript scrape_regional_lotteries.R
+      #- name: Commit results
+      #  run: |
+      #    git add -A
+      #    git commit -m 'New lottery numbers - data updated!' || echo "No changes to commit"
+      #    git push origin || echo "No changes to commit"
+       # configure gcloud and gsutil
+      - name: GCloud setup
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          version: "325.0.0"
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+
+      - name: Update
+        env:
+          CDN_AUTH: ${{ secrets.CDN_AUTH }}
+        run: ./update-gcs.sh
