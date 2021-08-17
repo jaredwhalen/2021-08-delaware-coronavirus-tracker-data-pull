@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: Rscript -e 'install.packages(c("tidyr", "dplyr", "readr", "httr", "rvest", "RCurl", "stringr", "lubridate", "zoo"))'
       - name: Scrape the data
-        run: Rscript scrape_regional_lotteries.R
+        run: Rscript script.R
       - name: Commit results
         run: |
           git add -A
