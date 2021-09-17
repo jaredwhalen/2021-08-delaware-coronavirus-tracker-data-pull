@@ -20,7 +20,7 @@ updateCaseData = function() {
 
 checkForHospitalizationUpdate = function() {
   source("getHospitalizations.R")
-  hospitalizations__old <- read_csv("https://www.gannett-cdn.com/delaware-online/datasets/coronavirus-tracker/latest/hospitalizations.csv") %>%
+  hospitalizations__old <- read_csv("https://raw.githubusercontent.com/jaredwhalen/2021-08-delaware-coronavirus-tracker-data-pull/main/outputs/latest/hospitalizations.csv") %>%
     select(date_confirmed, delaware_hospitalized) %>% 
     mutate(date_confirmed = as.Date(date_confirmed), delaware_hospitalized = as.numeric(delaware_hospitalized)) %>% 
     arrange(date_confirmed)
