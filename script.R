@@ -8,6 +8,7 @@ library(stringr)
 library(jsonlite)
 library(lubridate)
 library(zoo)
+library(stringi)
 
 output_path = paste('./outputs/', Sys.Date(), sep='')
 dir.create(output_path, showWarnings = FALSE)
@@ -20,7 +21,7 @@ updateCaseData = function() {
 
 checkForHospitalizationUpdate = function() {
   source("getHospitalizations.R")
-  hospitalizations__old <- read_csv("https://www.gannett-cdn.com/delaware-online/datasets/coronavirus-tracker/latest/hospitalizations.csv") %>%
+  hospitalizations__old <- read_csv(paste("https://www.gannett-cdn.com/delaware-online/datasets/coronavirus-tracker/latest/hospitalizations.csv", stringi::stri_rand_strings(1, 50), sep='') %>%
     select(date_confirmed, delaware_hospitalized) %>% 
     mutate(date_confirmed = as.Date(date_confirmed), delaware_hospitalized = as.numeric(delaware_hospitalized)) %>% 
     arrange(date_confirmed)
