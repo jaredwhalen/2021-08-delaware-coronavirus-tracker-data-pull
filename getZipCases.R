@@ -15,10 +15,9 @@ for (zip in zips) {
     read_html()
   
   date_confirmed <- html %>% 
-    html_node(xpath='//*[@id="positive-cases-data"]/article/div/header/div/div/div/span[2]') %>% 
+    html_node(xpath='/html/body/div[1]/div/div/main/div[1]/div/section/div/section[1]/div/div/article/article/div/header/div/div/div/span[2]') %>% 
     html_text() %>% 
-    gsub( ".*(\\d{1,2}/\\d{1,2}/\\d{4}).*", "\\1", .) %>% 
-    as.Date(., format='%m/%d/')
+    as.Date(., format='%m/%d/%Y')
   
   cases <- html %>% 
     html_node(xpath='//*[@id="positive-cases-data"]/article/div/div/div/div[1]/div[1]/div/div/div[1]/div/div[2]/div[1]') %>% 
