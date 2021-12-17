@@ -8,50 +8,47 @@ data_list <- list()
 
 for (zip in zips) {
   print(zip)
-  html <- httr::GET(paste(url, zip, sep=''), 
+  html <- httr::GET(paste(url, zip, sep=''),
                     #pass cookie
                     set_cookies(`policy_accepted` = "true")
   ) %>%
     read_html()
-  
-  date_confirmed <- html %>% 
-    html_node(xpath='/html/body/div[1]/div/div/main/div[1]/div/section/div/section[1]/div/div/article/article/div/header/div/div/div/span[2]') %>% 
-    html_text() %>% 
+
+  date_confirmed <- html %>%
+    html_node(xpath='/html/body/div[1]/div/div/main/div[1]/div/section/div/section[1]/div/div/article/article/div/header/div/div/div/span[2]') %>%
+    html_text() %>%
     as.Date(., format='%m/%d/%Y')
-  
-  
-  cases <- html %>% 
-    html_node(xpath='//*[@id="positive-cases-data"]/article/div/div/div/div[1]/div[1]/div/div/div[1]/div/div[2]/div[1]') %>% 
-    html_text() %>% 
-    gsub('[^0-9.-]', '', .) %>% 
+
+  cases <- html %>%
+    html_node(xpath='//*[@id="positive-cases-data"]/article/div/div/div/div[1]/div[1]/div/div/div[1]/div/div[2]/div[1]') %>%
+    html_text() %>%
+    gsub('[^0-9.-]', '', .) %>%
     as.numeric()
-  
-  casesPer10k <- html %>% 
-    html_node(xpath='//*[@id="positive-cases-data"]/article/div/div/div/div[1]/div[1]/div/div/div[1]/div/div[2]/div[2]') %>% 
-    html_text() %>% 
-    sub(" per 10,000 people", "", .) %>% 
-    gsub('[^0-9.-]', '', .) %>% 
+
+  casesPer10k <- html %>%
+    html_node(xpath='//*[@id="positive-cases-data"]/article/div/div/div/div[1]/div[1]/div/div/div[1]/div/div[2]/div[2]') %>%
+    html_text() %>%
+    sub(" per 10,000 people", "", .) %>%
+    gsub('[^0-9.-]', '', .) %>%
     as.numeric()
-  
-  deaths <- html %>% 
-    html_node(xpath='//*[@id="death-data"]/article/div/div/div/div[1]/div[1]/div/div/div[1]/div/div[2]/div[1]') %>% 
-    html_text() %>% 
-    gsub('[^0-9.-]', '', .) %>% 
+
+  deaths <- html %>%
+    html_node(xpath='//*[@id="death-data"]/article/div/div/div/div[1]/div[1]/div/div/div[1]/div/div[2]/div[1]') %>%
+    html_text() %>%
+    gsub('[^0-9.-]', '', .) %>%
     as.numeric()
-  
-  deathsPer10k <- html %>% 
-    html_node(xpath='//*[@id="death-data"]/article/div/div/div/div[1]/div[1]/div/div/div[1]/div/div[2]/div[2]') %>% 
-    html_text() %>% 
-    sub(" per 10,000 people", "", .) %>% 
-    gsub('[^0-9.-]', '', .) %>% 
+
+  deathsPer10k <- html %>%
+    html_node(xpath='//*[@id="death-data"]/article/div/div/div/div[1]/div[1]/div/div/div[1]/div/div[2]/div[2]') %>%
+    html_text() %>%
+    sub(" per 10,000 people", "", .) %>%
+    gsub('[^0-9.-]', '', .) %>%
     as.numeric()
-  
+
     row <- data.frame(date_confirmed, zip, cases, casesPer10k, deaths, deathsPer10k)
-    
+
     index <- length(data_list) + 1
     data_list[[index]] <- row
 }
 
 zip__new <- bind_rows(data_list)
-
-
