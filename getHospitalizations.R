@@ -9,28 +9,30 @@ overview <- httr::GET(url,
     html_node("#overview")
 
   date <- overview %>% 
-    html_node('.mb-1') %>% 
+    html_node(xpath='/html/body/div[1]/div/div/main/div[1]/div/section/div/section[2]/div/div/article/article/div/header/div/div/div/span[2]') %>% 
     html_text() %>% 
-    gsub( ".*(\\d{1,2}/\\d{1,2}/\\d{4}).*", "\\1", .) %>% 
-    as.Date(., format='%m/%d/')
+    as.Date(., format='%m/%d/%Y')
 
 
 
-  overview.nodes <- overview %>% 
-    html_nodes('.c-dash-slat__value-block')
+value <- overview %>% 
+    html_node(xpath='/html/body/div[1]/div[2]/div/main/div/div[1]/section/div/section[2]/article[1]/div/div[2]/section[2]/div[2]/div[2]/div/div[2]/div/div/span/strong[1]') %>% 
+    html_text()
+hospitalizations__new <- data.frame(date_confirmed = date, delaware_hospitalized = as.numeric(value))
+  
   
   #loop over nodes
-  for (node in overview.nodes) {
-    #get label
-    label <- node %>% 
-      html_node('.c-dash-slat__title') %>% 
-      html_text()
-    
-    if (grepl('current hospitalizations', label, ignore.case = T)) {
-      value <- node %>% 
-        html_node('.c-dash-slat__value') %>% 
-        html_text()
-        hospitalizations__new <- data.frame(date_confirmed = date, delaware_hospitalized = as.numeric(value))
-    }
-  }
+  # for (node in overview.nodes) {
+  #   #get label
+  #   label <- node %>% 
+  #     html_node('.c-dash-slat__title') %>% 
+  #     html_text()
+  #   
+  #   # if (grepl('current hospitalizations', label, ignore.case = T)) {
+  #     value <- node %>% 
+  #       html_node('.c-dash-slat__value-content') %>% 
+  #       html_text()
+  #       hospitalizations__new <- data.frame(date_confirmed = date, delaware_hospitalized = as.numeric(value))
+  #   # }
+  # }
   

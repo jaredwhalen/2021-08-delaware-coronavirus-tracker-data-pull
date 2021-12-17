@@ -21,14 +21,14 @@ getData <- function(url, xpath) {
 
 getStatistic <- function(d, q, l, u) {
   d <- d %>% 
-    mutate(date_confirmed = paste(Year, Month, Day, sep='-')) %>% 
+    mutate(date_confirmed = paste(year, month, day, sep='-')) %>%
     filter(
-      Statistic == q,
-      Unit == u,
+      statistic == q,
+      unit == u,
     ) %>% 
     select(
       date_confirmed,
-      !!l := Value
+      !!l := value
     ) 
   
   # if (q == "Deaths") {

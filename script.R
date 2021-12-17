@@ -8,6 +8,7 @@ library(stringr)
 library(jsonlite)
 library(lubridate)
 library(zoo)
+library(stringi)
 
 output_path = paste('./outputs/', Sys.Date(), sep='')
 dir.create(output_path, showWarnings = FALSE)
@@ -20,21 +21,21 @@ updateCaseData = function() {
 
 checkForHospitalizationUpdate = function() {
   source("getHospitalizations.R")
-  hospitalizations__old <- read_csv("https://www.gannett-cdn.com/delaware-online/datasets/coronavirus-tracker/latest/hospitalizations.csv") %>%
-    select(date_confirmed, delaware_hospitalized) %>% 
-    mutate(date_confirmed = as.Date(date_confirmed), delaware_hospitalized = as.numeric(delaware_hospitalized)) %>% 
-    arrange(date_confirmed)
-  if (hospitalizations__new$date_confirmed > tail(hospitalizations__old, 1)$date_confirmed) {
-    print('new entry')
-    hospitalizations__updated <- bind_rows(hospitalizations__old, hospitalizations__new)
-  } else {
-    hospitalizations__updated <- within(hospitalizations__old, {
-      delaware_hospitalized[date_confirmed == hospitalizations__new$date_confirmed] <- hospitalizations__new$delaware_hospitalized
-    })
-    print('update entry')
-  }
-  write_csv(hospitalizations__updated, paste(output_path, '/hospitalizations.csv', sep=''))
-  write_csv(hospitalizations__updated, "./outputs/latest/hospitalizations.csv")
+  hospitalizations__old <- read_csv(paste("https://www.gannett-cdn.com/delaware-online/datasets/coronavirus-tracker/latest/hospitalizations.csv?", stringi::stri_rand_strings(1, 50), sep='')) %>%
+                                      select(date_confirmed, delaware_hospitalized) %>% 
+                                      mutate(date_confirmed = as.Date(date_confirmed), delaware_hospitalized = as.numeric(delaware_hospitalized)) %>% 
+                                      arrange(date_confirmed)
+                                    if (hospitalizations__new$date_confirmed > tail(hospitalizations__old, 1)$date_confirmed) {
+                                      print('new entry')
+                                      hospitalizations__updated <- bind_rows(hospitalizations__old, hospitalizations__new)
+                                    } else {
+                                      hospitalizations__updated <- within(hospitalizations__old, {
+                                        delaware_hospitalized[date_confirmed == hospitalizations__new$date_confirmed] <- hospitalizations__new$delaware_hospitalized
+                                      })
+                                      print('update entry')
+                                    }
+                                    write_csv(hospitalizations__updated, paste(output_path, '/hospitalizations.csv', sep=''))
+                                    write_csv(hospitalizations__updated, "./outputs/latest/hospitalizations.csv")
 }
 
 checkForVaccinationUpdate = function() {
@@ -55,4 +56,4 @@ checkForHospitalizationUpdate()
 checkForVaccinationUpdate()
 updateZipCaseData()
 
- 
+

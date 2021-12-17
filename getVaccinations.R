@@ -51,16 +51,16 @@ vaccinations__updated <- x %>%
   filter(
     # Unit == 'doses',
     # Statistic == 'Vaccine Doses Administered'
-    Unit == 'people',
-    Statistic == 'Persons Fully Vaccinated'
+    unit == 'people',
+    statistic == 'Persons Fully Vaccinated'
   ) %>% 
   mutate(
-    date_confirmed =as.Date( paste(Month,Day,Year, sep='/'), '%m/%d/%Y')
+    date_confirmed =as.Date( paste(month,day,year, sep='/'), '%m/%d/%Y')
   ) %>% 
   select(
     date_confirmed,
     # delaware_administered = Value
-    vaccinated = Value
+    vaccinated = value
     ) %>% 
   mutate(
     # delaware_administered = cumsum(delaware_administered) 
