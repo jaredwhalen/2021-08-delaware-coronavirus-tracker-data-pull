@@ -9,7 +9,7 @@ overview <- httr::GET(url,
     html_node("#overview")
 
   date <- overview %>% 
-    html_node(xpath='/html/body/div[1]/div/div/main/div[1]/div/section/div/section[2]/div/div/article/article/div/header/div/div/div/span[2]') %>% 
+    html_node(xpath='/html/body/div[1]/div[2]/div/main/div/div[1]/section/div/section[3]/div[1]/div/div[1]/div[1]/article/div/header/div/div/div/span[2]') %>% 
     html_text() %>% 
     as.Date(., format='%m/%d/%Y')
 
