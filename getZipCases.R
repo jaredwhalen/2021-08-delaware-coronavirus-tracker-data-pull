@@ -15,7 +15,7 @@ for (zip in zips) {
     read_html()
 
   date_confirmed <- html %>%
-    html_node(xpath='/html/body/div[1]/div/div/main/div[1]/div/section/div/section[1]/div/div/article/article/div/header/div/div/div/span[2]') %>%
+    html_node(xpath='//*[@id="overview"]/div/div[1]/div/article/div/header/div/div/div/span[2]') %>%
     html_text() %>%
     as.Date(., format='%m/%d/%Y')
 
