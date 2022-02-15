@@ -15,8 +15,9 @@ for (zip in zips) {
     read_html()
 
   date_confirmed <- html %>%
-    html_node(xpath='/html/body/div[1]/div[2]/div/main/div/div[1]/section/div/section[1]/div/div[1]/div/article/div/header/div/div/div/span[2]') %>%
+    html_node(xpath='/html/body/div[1]/div[2]/div/main/div/div[1]/section/div/section[1]/article[4]/article/div/div/div[2]/p') %>%
     html_text() %>%
+    gsub("Data are current as of 6pm the previous day. Last update: ", "") %>%
     as.Date(., format='%m/%d/%Y')
 
   cases <- html %>%
