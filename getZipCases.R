@@ -7,6 +7,9 @@ url <- 'https://myhealthycommunity.dhss.delaware.gov/locations/zip-code-'
 data_list <- list()
 
 for (zip in zips) {
+  date_time<-Sys.time()
+  while((as.numeric(Sys.time()) - as.numeric(date_time))<1){} #dummy while loop
+  
   print(zip)
   html <- httr::GET(paste(url, zip, sep=''),
                     #pass cookie
