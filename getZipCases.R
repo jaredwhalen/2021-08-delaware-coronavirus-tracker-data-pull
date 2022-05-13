@@ -8,7 +8,7 @@ data_list <- list()
 
 for (zip in zips) {
   date_time<-Sys.time()
-  while((as.numeric(Sys.time()) - as.numeric(date_time))<1){} #dummy while loop
+  while((as.numeric(Sys.time()) - as.numeric(date_time))<10){} #dummy while loop
   
   print(zip)
   html <- httr::GET(paste(url, zip, sep=''),
