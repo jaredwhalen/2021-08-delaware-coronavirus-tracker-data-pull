@@ -66,7 +66,8 @@ readUrl <- function(url) {
 data_list <- list()
 for (zip in zips) {
   print(zip)
-  
+
+
   url <- paste('https://myhealthycommunity.dhss.delaware.gov/locations/zip-code-', zip, '/covid19_vaccine_administrations', sep='')
   
   html <- readUrl(url)
@@ -131,7 +132,7 @@ for (zip in zips) {
     data_list[[index]] <- row
   }
   
-
+  
 }
 
 df <- bind_rows(data_list)

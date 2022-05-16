@@ -7,13 +7,16 @@ url <- 'https://myhealthycommunity.dhss.delaware.gov/locations/zip-code-'
 data_list <- list()
 
 for (zip in zips) {
-  print(zip)
+  date_time<-Sys.time()
+  while((as.numeric(Sys.time()) - as.numeric(date_time))<1){} #dummy while loop
+  
+  message(zip)
   html <- httr::GET(paste(url, zip, sep=''),
                     #pass cookie
                     set_cookies(`policy_accepted` = "true")
   ) %>%
     read_html()
-
+  
 #   date_confirmed <- html %>%
 #     html_node(xpath='/html/body/div[1]/div[2]/div/main/div/div[1]/section/div/section[1]/article[4]/article/div/div/div[2]/p') %>%
 #     html_text() %>%
@@ -23,11 +26,11 @@ for (zip in zips) {
   date_confirmed <- Sys.Date()
 
   cases <- html %>%
-    html_node(xpath='/html/body/div[1]/div[2]/div/main/div/div[1]/section/div/section[1]/article[3]/article/div/div/div[1]/div[1]/div/div[2]/div[1]/div/div/div[1]') %>%
+    html_node(xpath='/html/body/div[1]/div[2]/div/main/div/div[1]/section/div/section[1]/article[3]/article/div/div/div[2]/div[1]/div/div[2]/div[1]/div/div/div[1]') %>%
     html_text() %>%
     gsub('[^0-9.-]', '', .) %>%
     as.numeric()
-
+  
   casesPer10k <- html %>%
     html_node(xpath='/html/body/div[1]/div[2]/div/main/div/div[1]/section/div/section[1]/article[3]/article/div/div/div[1]/div[1]/div/div[2]/div[1]/div/div/div[2]/text()') %>%
     html_text() %>%
@@ -48,6 +51,8 @@ for (zip in zips) {
     gsub('[^0-9.-]', '', .) %>%
     as.numeric()
 
+  message("Cases: ", cases, " Deaths: ",deaths)
+  
     row <- data.frame(date_confirmed, zip, cases, casesPer10k, deaths, deathsPer10k)
 
     index <- length(data_list) + 1
