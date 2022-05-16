@@ -58,7 +58,7 @@ for (i in 1:nrow(links)) {
   list[[length(list)+1]] <- getStatistic(data, 'Deaths', paste(name, 'deaths', sep='_'), 'people')
   list[[length(list)+1]] <- getStatistic(data, 'Persons Tested Negative', paste(name, 'negative', sep='_'), 'people')
   list[[length(list)+1]] <- getStatistic(data, 'Total Persons Tested', paste(name, 'tests', sep='_'), 'people')
-  Sys.sleep(30)
+  Sys.sleep(60)
 }
 
 cases__new <- Reduce(
