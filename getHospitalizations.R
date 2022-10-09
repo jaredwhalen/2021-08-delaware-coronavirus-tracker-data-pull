@@ -16,7 +16,7 @@ overview <- httr::GET(url,
 
 
 value <- overview %>%
-    html_node(xpath='/html/body/div[1]/div[2]/div/main/div/div[1]/section/div/section[2]/article[1]/div/div[2]/section[2]/div[2]/div[2]/div/div[2]/div/div/span/strong[1]') %>%
+    html_node(xpath='//*[@id="overview"]/article[1]/div/div[2]/section[2]/div[2]/div[2]/div/div[2]/div/div/span/strong[1]') %>%
     html_text() %>%
   replace(is.na(.), 0)
 
