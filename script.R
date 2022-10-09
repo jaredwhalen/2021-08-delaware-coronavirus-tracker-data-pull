@@ -52,6 +52,6 @@ updateZipCaseData = function() {
 }
 
 updateCaseData()
-checkForHospitalizationUpdate()
+#checkForHospitalizationUpdate()
 checkForVaccinationUpdate()
 #updateZipCaseData()
